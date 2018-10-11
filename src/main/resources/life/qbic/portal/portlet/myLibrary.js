@@ -11,12 +11,12 @@ element.innerHTML =
 		"<div class='caption'>Hello, world!</div>" +
 		"<div class='textinput'>Enter a value: " +      //define textinputfield -> with text before field
 		"<input type='text' name='value'/>" +           //value as variable to process within code?! --> access values of type 'input' as array in order they are defined
-		"<input type='button' value='Click'/>" +        //create button
+		"<input type='button' value='Press'/>" +        //create button
 		"</div>";
 
-    element.alert("Test Error!!!!!")
+    //alert(element.innerHTML)//give test alert (operate on window!!!)
 	// Style it
-	element.style.border = "thin solid red";        //frame
+	element.style.border = "thin solid purple";        //frame needs to be changed on element object (DOM)
 	element.style.display = "inline-block";
 
 	// Getter and setter for the value property  ---> value of the text-field!?!?!
@@ -31,16 +31,27 @@ element.innerHTML =
 
 	// Default implementation of the click handler
 	this.click = function () {
-		element.alert("Error: Must implement click() method");//is called with button.onclick in the lower part??
+		alert("Error: Must implement click() method");//is called with button.onclick in the lower part?? --> overwritten in the connector
 	};
 
+/**
+not called
+**/
 	// Set up button click
 	var button = element.getElementsByTagName("input")[1]; // -> use array to access the right field (here button)
 	var self = this; // Can't use this inside the function
 	button.onclick = function () {
-		self.click();
-		element.alert("Value changed");
-		element.innerHTML =
-		"<div class='caption'>Changed!</div>";
+		self.click(); //visualize button is pressed
+		//element.innerHTML = element.innerHTML+ "<p>This is a test </p>";
+		//self.alert("Button clicked");
+
 	};
+
+	//testfunction
+    this.test = function () {
+    console.log("in test");
+    	element.innerHTML = element.innerHTML+ "<p>This is a test "+this.getValue()+"</p>";
+    	alert("this is a test");
+
+    };
 };

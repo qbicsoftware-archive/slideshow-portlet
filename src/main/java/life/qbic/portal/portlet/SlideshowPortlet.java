@@ -19,9 +19,9 @@ import org.apache.logging.log4j.Logger;
  * @see <a href=https://github.com/qbicsoftware/portal-utils-lib>portal-utils-lib</a>
  */
 @Theme("mytheme") //-> include stylesheet
-//@SuppressWarnings("serial")
+@SuppressWarnings("serial")
 @Widgetset("life.qbic.portal.portlet.AppWidgetSet") //-> include widgetinfo (gwt)
-public class SlideshowPortlet extends QBiCPortletUI implements View{
+public class SlideshowPortlet extends QBiCPortletUI{
 
 
     private static final Logger LOG = LogManager.getLogger(SlideshowPortlet.class);
@@ -29,18 +29,23 @@ public class SlideshowPortlet extends QBiCPortletUI implements View{
 
 
     public SlideshowPortlet() {
+        //cannot find favicon.ico in mytheme (is in valo?? https://github.com/vaadin/framework/issues/5733)
         // Set the value from server-side
-        mycomponent.setValue("Server-side value");
-
+        mycomponent.setValue("value");
+/**
+ 4) after all JS alerts have been shown
+ **/
         // Process a value input by the user from the client-side
         mycomponent.addValueChangeListener(
                 new MyComponent.ValueChangeListener() {
                     @Override
                     public void valueChange() {
                         Notification.show("Value: " + mycomponent.getValue());
-                        LOG.info(mycomponent.getValue()+ "this is the value");
+                        //LOG.info(mycomponent.getValue()+ "this is the value");
                     }
                 });
+
+        //LOG.info(mycomponent.getValue());
 
     }
 
@@ -57,20 +62,4 @@ public class SlideshowPortlet extends QBiCPortletUI implements View{
     }
 
 
-    public void test() {
-
-        /** Place into code to display
-         * window.foo = new mylibrary.MyComponent(
-         *             document.getElementById("foo"));
-         *     window.foo.click = function () {
-         *         alert("Value is " + this.getValue());
-         */
-
-    }
-
-    @Override
-    public void enter(ViewChangeEvent event) {
-
-        LOG.info("entered?? ");
-    }
 }

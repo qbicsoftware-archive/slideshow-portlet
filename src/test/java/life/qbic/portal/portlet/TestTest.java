@@ -13,7 +13,7 @@ public class TestTest {
     @Test
     public void testTest() {
         SlideshowPortlet neu = new SlideshowPortlet();
-        neu.test();
+
     }
 
 }

@@ -20,7 +20,6 @@ import java.util.ArrayList;
  */
 //Server-Side Component
 @JavaScript({"myLibrary.js", "myComponent-connector.js"})
-//, "myComponent-connector.js"}) //--> include scripts, if not in same package need path to script!!
 public class MyComponent extends AbstractJavaScriptComponent {
 
 
@@ -32,13 +31,15 @@ public class MyComponent extends AbstractJavaScriptComponent {
     public MyComponent() {                                              //constructor that REGISTERS the call() function
         addFunction("onClick", new JavaScriptFunction() {   //call is a server-side function handler
             @Override
-            public void call(JsonArray arguments) {
+            public void call(JsonArray arguments) { //arguments with which the function was called
+                //LOG.info(arguments.length());
                 getState().value = arguments.getString(0);
-                LOG.info(getState().value+" value of state");
+                //LOG.info(getState().value+" value of state");
                 // getState().setValue(arguments.getString(0));
+
                 for (ValueChangeListener listener: listeners) {
                     listener.valueChange();
-                    LOG.info(listener + " listener");
+                   // LOG.info(listener + " listener");
                 }
             }
         });

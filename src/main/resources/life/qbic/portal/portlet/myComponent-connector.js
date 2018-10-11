@@ -9,27 +9,32 @@ function() {
     var myComponent =
         new myLibrary.MyComponent(this.getElement()); //call myLibrary function with this element to connect JS
 
+/**
+1)
+**/
     // Handle changes from the server-side
     this.onStateChange = function() {
         myComponent.setValue(this.getState().value); //put new value into JS in HTML
-        this.getElement().alert("alert new value");
-
     };
-
+/**
+not called to show alert!
+**/
     // Pass user interaction to the server-side
     var self = this;
     myComponent.click = function() {
         self.onClick(myComponent.getValue());
-        this.getElement().alert("alert self");
     };
 
+/**
+2)
+**/
     //JS RPC call in Connector
     var connector = this;
     myComponent.click = function() { //.click implemented in JS library
-          connector.onClick(); //onClick implemented on Server-Side --> passing simple string
-         // connector.onClick(myComponent.getValue()); //onClick implemented on Server-Side --> passing simple string
-          this.getElement().alert("alert connector");
+        connector.onClick(myComponent.getValue()); //onClick implemented on Server-Side --> passing simple string
+        myComponent.test();
+        //to extend the html work on the component object of mylibrary --> need to define method to extend html and call in connector
+     };
 
-    };
 };
 
