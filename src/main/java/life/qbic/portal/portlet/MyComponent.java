@@ -19,7 +19,7 @@ import java.util.ArrayList;
  *
  */
 //Server-Side Component
-@JavaScript({"myLibrary.js", "myComponent-connector.js"})
+@JavaScript({"vaadin://js/myLibrary.js", "vaadin://js/myComponent-connector.js"})
 //, "myComponent-connector.js"}) //--> include scripts, if not in same package need path to script!!
 public class MyComponent extends AbstractJavaScriptComponent {
 

@@ -1,8 +1,9 @@
 //JavaScript Connector
-// Define the namespace
+
 
 //var version = "${project.version}";
 
+//change the state of the component here
 window.life_qbic_portal_portlet_MyComponent = // <- match server-side class names! (consider package name!!)
 function() {
     // Create the component
