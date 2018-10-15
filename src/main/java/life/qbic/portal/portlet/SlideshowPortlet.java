@@ -3,6 +3,7 @@ package life.qbic.portal.portlet;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinService;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.navigator.View;
@@ -11,6 +12,8 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Notification;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.ArrayList;
 
 
 /**
@@ -21,26 +24,30 @@ import org.apache.logging.log4j.Logger;
 @Theme("mytheme") //-> include stylesheet
 //@SuppressWarnings("serial")
 @Widgetset("life.qbic.portal.portlet.AppWidgetSet") //-> include widgetinfo (gwt)
-public class SlideshowPortlet extends QBiCPortletUI implements View{
+public class SlideshowPortlet extends QBiCPortletUI{
 
 
     private static final Logger LOG = LogManager.getLogger(SlideshowPortlet.class);
     MyComponent mycomponent = new MyComponent();
+    MySlider mySlider = new MySlider();
+    ArrayList<String> listOfPictures = new ArrayList<String>();
 
 
     public SlideshowPortlet() {
+       // String basePath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
+
         // Set the value from server-side
-        mycomponent.setValue("Server-side value");
+        //mycomponent.setValue("Server-side value");
 
         // Process a value input by the user from the client-side
-        mycomponent.addValueChangeListener(
+       /* mySlider.addValueChangeListener(
                 new MyComponent.ValueChangeListener() {
                     @Override
                     public void valueChange() {
                         Notification.show("Value: " + mycomponent.getValue());
                         LOG.info(mycomponent.getValue()+ "this is the value");
                     }
-                });
+                });*/
 
     }
 
@@ -50,7 +57,7 @@ public class SlideshowPortlet extends QBiCPortletUI implements View{
         
 
         HorizontalLayout layout = new HorizontalLayout();
-        layout.addComponent(mycomponent);
+        layout.addComponent(mySlider);
 
 
         return layout;
@@ -68,9 +75,4 @@ public class SlideshowPortlet extends QBiCPortletUI implements View{
 
     }
 
-    @Override
-    public void enter(ViewChangeEvent event) {
-
-        LOG.info("entered?? ");
-    }
 }

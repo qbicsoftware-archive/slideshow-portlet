@@ -7,9 +7,6 @@ import static org.junit.Assert.assertTrue;
 
 public class TestTest {
 
-
-
-
     @Test
     public void testTest() {
         SlideshowPortlet neu = new SlideshowPortlet();

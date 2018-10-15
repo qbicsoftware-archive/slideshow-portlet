@@ -7,6 +7,26 @@ var myLibrary = myLibrary || {};
 
 myLibrary.MyComponent = function (element) {
 
+/**
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>  ###### include jQuery to use its library??
+
+<script>
+$(document).ready(function(){
+    $("button").click(function(){
+        $("p").hide();
+    });
+});
+</script>
+</head>
+<body>
+
+innerHTML
+
+</body>
+*/
+
+//is body of html
 element.innerHTML =
 		"<div class='caption'>Hello, world!</div>" +
 		"<div class='textinput'>Enter a value: " +      //define textinputfield -> with text before field
@@ -14,7 +34,7 @@ element.innerHTML =
 		"<input type='button' value='Click'/>" +        //create button
 		"</div>";
 
-    element.alert("Test Error!!!!!")
+   alert("Test Error!!!!!")
 	// Style it
 	element.style.border = "thin solid red";        //frame
 	element.style.display = "inline-block";

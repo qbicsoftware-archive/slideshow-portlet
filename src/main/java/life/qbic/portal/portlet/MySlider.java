@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 
-@JavaScript({"vaadin://js/myLibrary.js", "vaadin://js/myComponent-connector.js"})
+@JavaScript({"vaadin://js/mySliderLibrary.js", "vaadin://js/mySliderConnector.js"})
 public class MySlider extends AbstractJavaScriptComponent {
 
 
@@ -20,18 +20,17 @@ public class MySlider extends AbstractJavaScriptComponent {
 
     //handel RCP calls from Server-Side
 
-    public MySlider() {                                              //constructor that REGISTERS the call() function
+    public MySlider() { //constructor that REGISTERS the call() function
         addFunction("onClick", new JavaScriptFunction() {   //call is a server-side function handler
             @Override
             public void call(JsonArray arguments) {
                 /**
-                 getState().value = arguments.getString(0);
-                 LOG.info(getState().value+" value of state");
+                 getState().position = arguments.getString(0);
+                 LOG.info(getState().position+" value of state");
 
 
                  for (ValueChangeListener listener: listeners) {
                  listener.valueChange();
-                 LOG.info(listener + " listener");
                  }
                  **/
             }
