@@ -10,12 +10,12 @@ mySliderLibrary.MySlider = function (element) {
 
 element.style.border = "thin solid red";        //frame
 alert("test");
-
+alert(element.URL);
 
 element.innerHTML = "<div class='slideshow-container'>"+
                     "<div class='mySlides fade'>" +
                         "<div class='numbertext'>1 / 3</div>"+
-                       "<img src='/src/main/webapp/WEB-INF/resources/pictures/colors.jpg' style='width:100%'>"+
+                       "<img src='../images/colors.jpg' style='width:100%'>"+
                          "<div class='text'>Caption Text</div>"+
                     "</div>"+
                     "<div class='mySlides fade'>"+
@@ -45,12 +45,13 @@ element.innerHTML = "<div class='slideshow-container'>"+
     showSlides(element);
 };
 
+///slideshow-portlet/WEB-INF/resources/pictures/holi.jpg
 
 function showSlides(element) {
     var i;
     var slides = element.getElementsByClassName("mySlides");
 
-    alert(slides.length);
+  //  alert(slides.length);
 
     for (i = 0; i < slides.length; i++) {
         slides[i].style.display = "none"; //hide all pictures by default
@@ -64,7 +65,7 @@ function showSlides(element) {
     setTimeout(showSlides, 2000); // Change image every 2 seconds
 }
 
-
+/*
 //with this function try to get images from folder? use jQuery
 function test(){
 var fileExt = {},
@@ -84,5 +85,5 @@ $.ajax({
        $("#fileNames").append('</ul>');
      }
   });
-}
+}*/
 
