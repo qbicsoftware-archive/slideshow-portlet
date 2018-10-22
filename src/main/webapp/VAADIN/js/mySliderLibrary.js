@@ -4,30 +4,31 @@
 
 // Define the namespace
 var mySliderLibrary = mySliderLibrary || {};
-
+var slideIndex = 0;
+var document;
 
 mySliderLibrary.MySlider = function (element) {
 
+document = element;
+
 element.style.border = "thin solid red";        //frame
-alert("test");
+//alert("test");
 alert(element.URL);
 
 element.innerHTML = "<div class='slideshow-container'>"+
                     "<div class='mySlides fade'>" +
                         "<div class='numbertext'>1 / 3</div>"+
-                       "<img src='../images/colors.jpg' style='width:100%'>"+
+                       "<img src='./VAADIN/images/colors.jpg' style='width:100%'>"+
                          "<div class='text'>Caption Text</div>"+
                     "</div>"+
                     "<div class='mySlides fade'>"+
                          "<div class='numbertext'>2 / 3</div>"+
-                         "<input type='text2' name='value2'/>" +
-                     //    "<img src='/src/main/webapp/WEB-INF/resources/pictures/holi.jpg' style='width:100%'>"+
+                         "<img src='/VAADIN/images/holi.jpg' style='width:100%'>"+
                          "<div class='text'>Caption Two</div>"+
                     "</div>"+
                     "<div class='mySlides fade'>"+
                          "<div class='numbertext'>3 / 3</div>"+
-                         "<input type='text3' name='value3'/>" +
-                      //   "<img src='src/main/webapp/WEB-INF/resources/pictures/holi.jpg' style='width:100%'>"+
+                         "<img src='./VAADIN/images/holi.jpg' style='width:100%'>"+
                          "<div class='text'>Caption Two</div>"+
                     "</div>"+
                         "<!-- Next and previous buttons -->"+
@@ -41,28 +42,40 @@ element.innerHTML = "<div class='slideshow-container'>"+
                       "<span class='dot' onclick='currentSlide(2)'></span>"+
                       "<span class='dot' onclick='currentSlide(3)'></span>"+
                     "</div>";
-    var slideIndex = 0;
-    showSlides(element);
+    showSlides();
+    alert("i am done");
 };
 
 ///slideshow-portlet/WEB-INF/resources/pictures/holi.jpg
 
-function showSlides(element) {
+function showSlides() {
+
     var i;
-    var slides = element.getElementsByClassName("mySlides");
-
-  //  alert(slides.length);
-
+    var slides = document.getElementsByClassName("mySlides");
     for (i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none"; //hide all pictures by default
+        slides[i].style.display = "none";
     }
-
     slideIndex++;
-
     if (slideIndex > slides.length) {slideIndex = 1}
-
-    slides[slideIndex-1].style.display = "block"; //show picture by blocking hiding for current picture
+    slides[slideIndex-1].style.display = "block";
     setTimeout(showSlides, 2000); // Change image every 2 seconds
+
+  /*
+  non-automatic: add n to function parameters
+  var i;
+  var slides = element.getElementsByClassName("mySlides");
+  var dots = element.getElementsByClassName("dot");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+  }
+    alert(n);
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";*/
 }
 
 /*
