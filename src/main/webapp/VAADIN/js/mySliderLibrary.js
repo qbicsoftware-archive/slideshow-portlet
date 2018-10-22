@@ -11,15 +11,14 @@ mySliderLibrary.MySlider = function (element) {
 
 document = element;
 
-element.style.border = "thin solid red";        //frame
-//alert("test");
-alert(element.URL);
+//element.style.border = "thin solid red";        //frame
 
+//do something like element.innerHTML = createHTML(pictureList) which is received from server (shared state??)
 element.innerHTML = "<div class='slideshow-container'>"+
                     "<div class='mySlides fade'>" +
                         "<div class='numbertext'>1 / 3</div>"+
                        "<img src='./VAADIN/images/colors.jpg' style='width:100%'>"+
-                         "<div class='text'>Caption Text</div>"+
+                         "<div class='text'>Caption one</div>"+
                     "</div>"+
                     "<div class='mySlides fade'>"+
                          "<div class='numbertext'>2 / 3</div>"+
@@ -29,7 +28,7 @@ element.innerHTML = "<div class='slideshow-container'>"+
                     "<div class='mySlides fade'>"+
                          "<div class='numbertext'>3 / 3</div>"+
                          "<img src='./VAADIN/images/holi.jpg' style='width:100%'>"+
-                         "<div class='text'>Caption Two</div>"+
+                         "<div class='text'>Caption three</div>"+
                     "</div>"+
                         "<!-- Next and previous buttons -->"+
                         "<a class='prev' onclick='plusSlides(-1)'>&#10094;</a>"+
@@ -42,61 +41,91 @@ element.innerHTML = "<div class='slideshow-container'>"+
                       "<span class='dot' onclick='currentSlide(2)'></span>"+
                       "<span class='dot' onclick='currentSlide(3)'></span>"+
                     "</div>";
-    showSlides();
-    alert("i am done");
+
+
+
+    var prev = element.getElementsByClassName("prev"); // -> use array to access the right field (here button)
+    	var self = this; // Can't use this inside the function
+    	prev.onclick = function () {
+    		self.click(); //visualize button is pressed
+    		//element.innerHTML = element.innerHTML+ "<p>This is a test </p>";
+    		alert("pressed prev");
+    };
+
+    var next = element.getElementsByClassName("next"); // -> use array to access the right field (here button)
+        var self = this; // Can't use this inside the function
+        next.onclick = function () {
+        	self.click(); //visualize button is pressed
+        		//element.innerHTML = element.innerHTML+ "<p>This is a test </p>";
+        		alert("pressed next");
+        };
+
+
+    showSlides(slideIndex);
+
+
+
 };
 
-///slideshow-portlet/WEB-INF/resources/pictures/holi.jpg
+function createHTML(innerHTML){
 
-function showSlides() {
+/*
+create innerHTML here dynamically (no hardcoding!!)
+*/
+}
 
-    var i;
-    var slides = document.getElementsByClassName("mySlides");
-    for (i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";
-    }
-    slideIndex++;
-    if (slideIndex > slides.length) {slideIndex = 1}
-    slides[slideIndex-1].style.display = "block";
-    setTimeout(showSlides, 2000); // Change image every 2 seconds
 
-  /*
-  non-automatic: add n to function parameters
+
+
+/*
+Function to activate interactive clicking through slides
+*/
+function showSlides(n) {
   var i;
-  var slides = element.getElementsByClassName("mySlides");
-  var dots = element.getElementsByClassName("dot");
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("dot");
+
   if (n > slides.length) {slideIndex = 1}
+
   if (n < 1) {slideIndex = slides.length}
+
   for (i = 0; i < slides.length; i++) {
       slides[i].style.display = "none";
   }
+
   for (i = 0; i < dots.length; i++) {
       dots[i].className = dots[i].className.replace(" active", "");
   }
-    alert(n);
+
   slides[slideIndex-1].style.display = "block";
-  dots[slideIndex-1].className += " active";*/
+  dots[slideIndex-1].className += " active";
 }
 
 /*
-//with this function try to get images from folder? use jQuery
-function test(){
-var fileExt = {},
-    fileExt[0]=".png",
-    fileExt[1]=".jpg",
-    fileExt[2]=".gif";
-$.ajax({
-    //This will retrieve the contents of the folder if the folder is configured as 'browsable'
-    url: '../../WEB-INF/resources/',
-    success: function (data) {
-       $("#fileNames").html('<ul>');
-       //List all png or jpg or gif file names in the page
-       $(data).find("a:contains(" + fileExt[0] + "),a:contains(" + fileExt[1] + "),a:contains(" + fileExt[2] + ")").each(function () {
-           var filename = this.href.replace(window.location.host, "").replace("http:///", "");
-           $("#fileNames").append( "<li>" + filename + "</li>");
-       });
-       $("#fileNames").append('</ul>');
-     }
-  });
-}*/
+Function to automatically show pictures
+*/
+function showSlidesAutomatic() {
+
+    var i;
+    var slides = document.getElementsByClassName("mySlides");
+
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+
+    for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+    }
+
+    slideIndex++;
+
+    if (slideIndex > slides.length) {slideIndex = 1}
+
+    slides[slideIndex-1].style.display = "block";
+      dots[slideIndex-1].className += " active";
+
+    setTimeout(showSlidesAutomatic, 2000); // Change image every 2 seconds
+}
+
+
 

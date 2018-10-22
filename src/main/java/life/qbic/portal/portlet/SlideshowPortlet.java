@@ -9,6 +9,7 @@ import com.vaadin.ui.Image;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.HorizontalLayout;
 
+import com.vaadin.ui.Notification;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,24 +31,23 @@ public class SlideshowPortlet extends QBiCPortletUI{
     private static final Logger LOG = LogManager.getLogger(SlideshowPortlet.class);
     MyComponent mycomponent = new MyComponent();
     MySlider mySlider = new MySlider();
-    ArrayList<String> listOfPictures = new ArrayList<String>();
 
 
     public SlideshowPortlet() {
        // String basePath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
 
-        // Set the value from server-side
-        //mycomponent.setValue("Server-side value");
+        // Set the starting position from server
+        mySlider.setValue(0);
 
         // Process a value input by the user from the client-side
-       /* mySlider.addValueChangeListener(
-                new MyComponent.ValueChangeListener() {
+       mySlider.addValueChangeListener(
+                new MySlider.ValueChangeListener() {
                     @Override
                     public void valueChange() {
-                        Notification.show("Value: " + mycomponent.getValue());
+                        Notification.show("Value: " + mySlider.getValue());
                         LOG.info(mycomponent.getValue()+ "this is the value");
                     }
-                });*/
+                });
 
     }
 
@@ -59,33 +59,23 @@ public class SlideshowPortlet extends QBiCPortletUI{
         HorizontalLayout layout = new HorizontalLayout();
         layout.addComponent(mySlider);
 
-       /* String basepath = VaadinService.getCurrent()
-                .getBaseDirectory().getAbsolutePath();
-
-        // Image as a file resource
-        FileResource resource = new FileResource(new File(basepath +
-                "/VAADIN/images/colors.jpg"));
-        LOG.info(basepath+ "/VAADIN/images/colors.jpg");
-
-        // Show the image in the application
-        Image image = new Image("Image from file", resource);
-        layout.addComponent(image);*/
-
-
-
         return layout;
     }
 
 
-    public void test() {
-
-        /** Place into code to display
-         * window.foo = new mylibrary.MyComponent(
-         *             document.getElementById("foo"));
-         *     window.foo.click = function () {
-         *         alert("Value is " + this.getValue());
+    public void createList() {
+        /**
+         *
+         * This function should initially create the list of picture to be displayed in the slider
          */
 
+    }
+
+    public void updateList(){
+        /**
+         * This list should update the picture list every time the slider reached the last picture in the slider.
+         * Are there any new pictures? Yes? Then add the new picture to the slider (--> update innerHTML of Element)
+         */
     }
 
 }

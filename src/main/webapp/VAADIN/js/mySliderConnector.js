@@ -10,4 +10,24 @@ function() {
         this.getElement().alert("alert new value");
 
     };
+
+        // Pass user interaction to the server-side
+        var self = this;
+        mySlider.click = function() {
+            self.onClick(mySlider.getValue());
+        };
+
+    /**
+    2)
+    **/
+        //JS RPC call in Connector
+        var connector = this;
+        mySlider.click = function() { //.click implemented in JS library
+            connector.onClick(mySlider.getValue()); //onClick implemented on Server-Side --> passing simple string
+            alert("alert connector");
+            //to extend the html work on the component object of mylibrary --> need to define method to extend html and call in connector
+    };
+
+
+
 };

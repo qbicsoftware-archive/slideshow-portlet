@@ -10,6 +10,8 @@ import org.apache.logging.log4j.Logger;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import static com.liferay.portal.kernel.util.GetterUtil.getNumber;
+
 
 @JavaScript({"vaadin://js/mySliderLibrary.js", "vaadin://js/mySliderConnector.js"})
 public class MySlider extends AbstractJavaScriptComponent {
@@ -24,15 +26,15 @@ public class MySlider extends AbstractJavaScriptComponent {
         addFunction("onClick", new JavaScriptFunction() {   //call is a server-side function handler
             @Override
             public void call(JsonArray arguments) {
-                /**
-                 getState().position = arguments.getString(0);
+
+                 getState().position = (int) arguments.getNumber(0);
                  LOG.info(getState().position+" value of state");
 
 
                  for (ValueChangeListener listener: listeners) {
                  listener.valueChange();
                  }
-                 **/
+
             }
         });
     }
@@ -58,10 +60,13 @@ public class MySlider extends AbstractJavaScriptComponent {
     public void setValue(int pos) {
         getState().position = pos;
     }
-
     public int getValue() {
         return getState().position;
     }
 
+    public void setList(ArrayList<String> list){ getState().pictureList = list;}
+    public ArrayList<String> getList() {
+        return getState().pictureList;
+    }
 
 }
