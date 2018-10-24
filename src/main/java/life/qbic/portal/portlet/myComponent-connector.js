@@ -14,7 +14,6 @@ function() {
     this.onStateChange = function() {
         myComponent.setValue(this.getState().value); //put new value into JS in HTML
         this.getElement().alert("alert new value");
-
     };
 
     // Pass user interaction to the server-side
@@ -27,7 +26,7 @@ function() {
     //JS RPC call in Connector
     var connector = this;
     myComponent.click = function() { //.click implemented in JS library
-          connector.onClick(); //onClick implemented on Server-Side --> passing simple string
+          connector.onClick(myComponent.getValue()); //onClick implemented on Server-Side --> passing simple string
          // connector.onClick(myComponent.getValue()); //onClick implemented on Server-Side --> passing simple string
           this.getElement().alert("alert connector");
 

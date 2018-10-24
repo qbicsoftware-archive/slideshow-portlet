@@ -37,7 +37,7 @@ public class SlideshowPortlet extends QBiCPortletUI{
        // String basePath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
 
         // Set the starting position from server
-        mySlider.setValue(0);
+        // mySlider.setValue(0);
 
         // Process a value input by the user from the client-side
        mySlider.addValueChangeListener(
@@ -45,7 +45,7 @@ public class SlideshowPortlet extends QBiCPortletUI{
                     @Override
                     public void valueChange() {
                         Notification.show("Value: " + mySlider.getValue());
-                        LOG.info(mycomponent.getValue()+ "this is the value");
+                        //LOG.info(mySlider.getValue()+ "this is the value");
                     }
                 });
 

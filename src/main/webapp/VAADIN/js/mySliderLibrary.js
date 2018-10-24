@@ -4,8 +4,9 @@
 
 // Define the namespace
 var mySliderLibrary = mySliderLibrary || {};
-var slideIndex = 0;
+var slideIndex = 1;
 var document;
+var pictureList;
 
 mySliderLibrary.MySlider = function (element) {
 
@@ -31,8 +32,8 @@ element.innerHTML = "<div class='slideshow-container'>"+
                          "<div class='text'>Caption three</div>"+
                     "</div>"+
                         "<!-- Next and previous buttons -->"+
-                        "<a class='prev' onclick='plusSlides(-1)'>&#10094;</a>"+
-                        "<a class='next' onclick='plusSlides(1)'>&#10095;</a>"+
+                        "<a class='prev'>&#10094;</a>"+
+                        "<a class='next'>&#10095;</a>"+
                     "</div>"+
                     "<br>"+
                     "<!-- The dots/circles -->"+
@@ -42,32 +43,59 @@ element.innerHTML = "<div class='slideshow-container'>"+
                       "<span class='dot' onclick='currentSlide(3)'></span>"+
                     "</div>";
 
+/**
+Deleted this to check if its reason for no pictures being displayed
+"<a class='prev' onclick='plusSlides(-1)'>&#10094;</a>"+ //&#10094 is the leftpointing arrow
+                        "<a class='next' onclick='plusSlides(1)'>&#10095;</a>"+
+*/
+/*
+jump to these alerts after connector alert!!
+*/
 
-
-    var prev = element.getElementsByClassName("prev"); // -> use array to access the right field (here button)
+    var prev = element.getElementsByTagName("a")[0]; // -> use array to access the right field (here button)
     	var self = this; // Can't use this inside the function
     	prev.onclick = function () {
     		self.click(); //visualize button is pressed
+            plusSlides(-1);
     		//element.innerHTML = element.innerHTML+ "<p>This is a test </p>";
     		alert("pressed prev");
     };
 
-    var next = element.getElementsByClassName("next"); // -> use array to access the right field (here button)
+    var next = element.getElementsByTagName("a")[1]; // -> use array to access the right field (here button)
         var self = this; // Can't use this inside the function
         next.onclick = function () {
         	self.click(); //visualize button is pressed
+            plusSlides(1);
+
         		//element.innerHTML = element.innerHTML+ "<p>This is a test </p>";
-        		alert("pressed next");
-        };
+            alert("pressed next");
+    };
 
 
+    // Getter and setter for the value property
+    this.getValue = function () {
+    	return slideIndex;
+    };
+    this.setValue = function (value) {
+        slideIndex = value;
+    };
+
+    // Getter and setter for the list property
+    this.getList = function () {
+    	return pictureList;
+    };
+    this.setList = function (list) {
+    	pictureList =  list;
+    };
+
+    //call the slide show
     showSlides(slideIndex);
-
+    //showSlidesAutomatic();
 
 
 };
 
-function createHTML(innerHTML){
+function createHTML(element){
 
 /*
 create innerHTML here dynamically (no hardcoding!!)
@@ -75,19 +103,30 @@ create innerHTML here dynamically (no hardcoding!!)
 }
 
 
+// Next/previous controls
+function plusSlides(n) {
+    //setValue(n);
+    showSlides(slideIndex += n);
+}
 
+// Thumbnail image controls -> for dots
+function currentSlide(n) {
+    //setValue(n);
+    showSlides(slideIndex = n);
+}
 
 /*
-Function to activate interactive clicking through slides
+Function to show slide on position n
 */
 function showSlides(n) {
   var i;
   var slides = document.getElementsByClassName("mySlides");
   var dots = document.getElementsByClassName("dot");
 
-  if (n > slides.length) {slideIndex = 1}
+  if (n > slides.length) { slideIndex = 1}
 
   if (n < 1) {slideIndex = slides.length}
+  alert(getValue());
 
   for (i = 0; i < slides.length; i++) {
       slides[i].style.display = "none";
@@ -99,6 +138,7 @@ function showSlides(n) {
 
   slides[slideIndex-1].style.display = "block";
   dots[slideIndex-1].className += " active";
+  alert(slideIndex);
 }
 
 /*
@@ -122,7 +162,7 @@ function showSlidesAutomatic() {
     if (slideIndex > slides.length) {slideIndex = 1}
 
     slides[slideIndex-1].style.display = "block";
-      dots[slideIndex-1].className += " active";
+    dots[slideIndex-1].className += " active";
 
     setTimeout(showSlidesAutomatic, 2000); // Change image every 2 seconds
 }
