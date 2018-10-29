@@ -13014,6 +13014,10 @@ div.v-layout.v-horizontal.v-widget {
 	box-sizing: border-box;
 }
 
+.mytheme img {
+	vertical-align: middle;
+}
+
 .mytheme .slideshow-container {
 	max-width: 1000px;
 	position: relative;

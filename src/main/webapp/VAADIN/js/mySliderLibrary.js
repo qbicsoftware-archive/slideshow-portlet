@@ -7,6 +7,7 @@ var mySliderLibrary = mySliderLibrary || {};
 var slideIndex = 1;
 var document;
 var pictureList;
+var self;
 
 mySliderLibrary.MySlider = function (element) {
 
@@ -43,34 +44,12 @@ element.innerHTML = "<div class='slideshow-container'>"+
                       "<span class='dot' onclick='currentSlide(3)'></span>"+
                     "</div>";
 
-/**
-Deleted this to check if its reason for no pictures being displayed
-"<a class='prev' onclick='plusSlides(-1)'>&#10094;</a>"+ //&#10094 is the leftpointing arrow
-                        "<a class='next' onclick='plusSlides(1)'>&#10095;</a>"+
-*/
-/*
-jump to these alerts after connector alert!!
-*/
-
-    var prev = element.getElementsByTagName("a")[0]; // -> use array to access the right field (here button)
-    	var self = this; // Can't use this inside the function
-    	prev.onclick = function () {
-    		self.click(); //visualize button is pressed
-            plusSlides(-1);
-    		//element.innerHTML = element.innerHTML+ "<p>This is a test </p>";
-    		alert("pressed prev");
-    };
-
-    var next = element.getElementsByTagName("a")[1]; // -> use array to access the right field (here button)
-        var self = this; // Can't use this inside the function
-        next.onclick = function () {
-        	self.click(); //visualize button is pressed
-            plusSlides(1);
-
-        		//element.innerHTML = element.innerHTML+ "<p>This is a test </p>";
-            alert("pressed next");
-    };
-
+  /**
+  Deleted this to check if its reason for no pictures being displayed
+  Tag a as either hyperlink or global variable
+  "<a class='prev' onclick='plusSlides(-1)'>&#10094;</a>"+ //&#10094 is the leftpointing arrow
+  "<a class='next' onclick='plusSlides(1)'>&#10095;</a>"+
+  */
 
     // Getter and setter for the value property
     this.getValue = function () {
@@ -88,11 +67,37 @@ jump to these alerts after connector alert!!
     	pictureList =  list;
     };
 
+
+	// Default implementation of the click handler
+	this.click = function () {
+		//alert("Error: Must implement click() method");//is called with button.onclick
+	};
+
+/*
+jump to these alerts after connector alert!!
+*/
+    var prev = element.getElementsByClassName("prev")[0]; // -> use array to access the right field
+    self = this; // Can't use this inside the function
+    prev.onclick = function () {
+    	self.click(); //simulate button click -> defined in mySliderConnector
+        plusSlides(-1);
+        //alert(slideIndex);
+    	//alert("pressed prev");
+    };
+
+    var next = element.getElementsByClassName("next")[0]; // -> use array to access the right field
+  //  var self = this; // Can't use this inside the function
+    next.onclick = function () {
+        self.click();
+        plusSlides(1);
+       // alert(slideIndex);
+      // alert("pressed next");
+    };
+
+
     //call the slide show
     showSlides(slideIndex);
     //showSlidesAutomatic();
-
-
 };
 
 function createHTML(element){
@@ -105,13 +110,11 @@ create innerHTML here dynamically (no hardcoding!!)
 
 // Next/previous controls
 function plusSlides(n) {
-    //setValue(n);
     showSlides(slideIndex += n);
 }
 
-// Thumbnail image controls -> for dots
+// Thumbnail image controls -> for clicking dots
 function currentSlide(n) {
-    //setValue(n);
     showSlides(slideIndex = n);
 }
 
@@ -123,10 +126,9 @@ function showSlides(n) {
   var slides = document.getElementsByClassName("mySlides");
   var dots = document.getElementsByClassName("dot");
 
-  if (n > slides.length) { slideIndex = 1}
+  if (n > slides.length) {slideIndex = 1}
 
   if (n < 1) {slideIndex = slides.length}
-  alert(getValue());
 
   for (i = 0; i < slides.length; i++) {
       slides[i].style.display = "none";
@@ -138,7 +140,7 @@ function showSlides(n) {
 
   slides[slideIndex-1].style.display = "block";
   dots[slideIndex-1].className += " active";
-  alert(slideIndex);
+  //self.setValue(slideIndex);
 }
 
 /*

@@ -6,12 +6,8 @@ function() {
 
     // Handle changes from the server-side
     this.onStateChange = function() {
-       // myComponent.setValue(this.getState().value); //put new value into JS in HTML
-       mySlider.setValue(this.getState().position);
+       //mySlider.setValue(this.getState().position); --> do not set this value (will overwrite new states continuously
        mySlider.setList(this.getState().pictureList);
-       //this.getElement().alert("alert new value");
-       //alert("another alert");
-
     };
 
     // Pass user interaction to the server-side
@@ -25,9 +21,8 @@ function() {
     **/
     //JS RPC call in Connector
     var connector = this;
-    mySlider.click = function() { //.click implemented in JS library
+    mySlider.click = function() { //.click implemented in JS library -> overwrite!
           connector.onClick(mySlider.getValue()); //onClick implemented on Server-Side --> passing simple string
-        //  alert("alert connector");
         //to extend the html work on the component object of mylibrary --> need to define method to extend html and call in connector
     };
 
