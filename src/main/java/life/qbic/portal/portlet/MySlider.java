@@ -1,9 +1,18 @@
 package life.qbic.portal.portlet;
 
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayString;
+import com.google.gwt.json.client.JSONArray;
+//import com.google.gwt.core.client.*;
+import com.google.gwt.json.client.JSONString;
 import com.vaadin.annotations.JavaScript;
+import com.vaadin.server.ExternalResource;
+import com.vaadin.server.Page;
 import com.vaadin.server.VaadinService;
 import com.vaadin.ui.AbstractJavaScriptComponent;
 import com.vaadin.ui.JavaScriptFunction;
+import com.vaadin.ui.Link;
 import elemental.json.JsonArray;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,23 +33,31 @@ public class MySlider extends AbstractJavaScriptComponent {
     private String[] pictureType = new String[]{"jpg","png"};
 
     //handel RCP calls from Server-Side
-
     public MySlider() { //constructor that REGISTERS the call() function
-        //initialize list of pictures
-        setList(new ArrayList<String>());
         //set up the pictureList
         String basePath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
         File folder = new File(basePath+"/VAADIN/images/");
         File[] listOfFiles = folder.listFiles();
+        ArrayList<String> filesList = new ArrayList<>();
+
+        //JsArrayString jsFileArray = ((JsArrayString) JsArrayString.createArray(2));
+
 
         for (int i = 0; i < listOfFiles.length; i++) {
+
             if (listOfFiles[i].isFile() && checkFileType(listOfFiles[i])) {
-               getList().add(listOfFiles[i].getName());
-              LOG.info("Name of the file "+listOfFiles[i].getName());
+                filesList.add(listOfFiles[i].getName());
+                //jsFileArray.push(listOfFiles[i].getName());
+                LOG.info("Name of the file "+listOfFiles[i].getName());
+
             } else if (listOfFiles[i].isDirectory()) {
                 LOG.info("Why is there another directory? Pictures only get processed if they are directly located in the 'images' directory");
             }
         }
+
+        //setList(jsFileArray);
+        String[] pictures = filesList.toArray(new String[filesList.size()]);
+        setList(pictures);
 
 
         addFunction("onClick", new JavaScriptFunction() {   //call is a server-side function handler
@@ -58,8 +75,29 @@ public class MySlider extends AbstractJavaScriptComponent {
 
             }
         });
+
+      addFunction("createHTML", new JavaScriptFunction() {   //call is a server-side function handler
+            @Override
+            public void call(JsonArray arguments) {
+
+                //LOG.info("Type {}", arguments.getNumber(0));
+                LOG.info(getState().pictureList+" pictureList of state");
+
+
+                for (ValueChangeListener listener: listeners) {
+                    listener.valueChange();
+                }
+
+            }
+        });
+
     }
 
+    /**
+     * Method to check if the element is of defined file type
+     * @param file
+     * @return
+     */
     private boolean checkFileType(File file){
         String name = file.getName();
         String fileEnding = name.split("\\.")[1];
@@ -96,9 +134,15 @@ public class MySlider extends AbstractJavaScriptComponent {
         return getState().position;
     }
 
-    public void setList(ArrayList<String> list){ getState().pictureList = list;}
-    public ArrayList<String> getList() {
+    /* public void setList(JsArrayString list){ getState().pictureList = list;}
+    public JsArrayString getList() {
+        return getState().pictureList;
+    }*/
+
+   public void setList(String[] list){ getState().pictureList = list;}
+   public String[] getList() {
         return getState().pictureList;
     }
+
 
 }

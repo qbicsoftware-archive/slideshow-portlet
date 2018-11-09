@@ -8,6 +8,8 @@ function() {
     this.onStateChange = function() {
        //mySlider.setValue(this.getState().position); --> do not set this value (will overwrite new states continuously
        mySlider.setList(this.getState().pictureList);
+       mySlider.createHTML();
+       alert("changed state");
     };
 
     // Pass user interaction to the server-side

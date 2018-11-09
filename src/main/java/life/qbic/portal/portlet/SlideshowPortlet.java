@@ -29,7 +29,7 @@ public class SlideshowPortlet extends QBiCPortletUI{
 
 
     private static final Logger LOG = LogManager.getLogger(SlideshowPortlet.class);
-    MyComponent mycomponent = new MyComponent();
+   // MyComponent mycomponent = new MyComponent();
     MySlider mySlider = new MySlider();
 
 
