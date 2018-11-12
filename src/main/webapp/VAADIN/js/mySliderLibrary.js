@@ -12,6 +12,38 @@ var self;
 mySliderLibrary.MySlider = function (element) {
 
     //element.style.border = "thin solid red";
+    loadJS();
+
+    alert("first");
+
+    alert("out");
+
+    /*$( document ).ready(function() {
+        $.ajax({
+          url: "photo-list.php",
+          dataType: "json",
+          success: function (data) {
+            $.each(data, function(i,filename) {
+              $("#slides-foto-test").append("<img src='" + filename + "'>");
+            });
+
+            // Now trigger the slideshow script
+            $('#slides').superslides({
+              hashchange: true,
+              play: 4000
+            });
+            $('#slides').on('mouseenter', function() {
+              $(this).superslides('stop');
+              console.log('Stopped')
+            });
+            $('#slides').on('mouseleave', function() {
+              $(this).superslides('start');
+              console.log('Started')
+            });
+
+          }
+        });
+      });*/
 
     documentX = element;
 
@@ -82,6 +114,40 @@ jump to these alerts after connector alert!!
     showSlides(slideIndex);
     //showSlidesAutomatic();
 };
+
+function loadJS(){
+var theNewScript = document.createElement("script");
+theNewScript.type = "text/javascript";
+theNewScript.src = "./VAADIN/js/jQuery.js";
+document.getElementsByTagName("head")[0].appendChild(theNewScript);
+// jQuery MAY OR MAY NOT be loaded at this stage
+var waitForLoad = function () {
+    if (typeof jQuery != "undefined") {
+        alert("it worked!");
+        var dir = "./VAADIN/images";
+                var fileextension=".jpg";
+                alert("after loading");
+                  $.ajax({
+                     //This will retrieve the contents of the folder if the folder is configured as 'browsable'
+                        url: dir,
+                        success: function (data) {
+                            //Lsit all png file names in the page
+                            $(data).find("a:contains(" + fileextension + ")").each(function () {
+                                alert("in function");
+                                var filename = this.href.replace(window.location.host, "").replace("http:///","");
+                                //$("body").append($("<img src=" + Dir + filename + "></img>"));
+                                alert(filename);
+                            });
+                        }
+                    });
+    } else {
+        window.setTimeout(waitForLoad, 1000);
+    }
+};
+window.setTimeout(waitForLoad, 1000);
+
+
+}
 
 function createHTML(){
 
