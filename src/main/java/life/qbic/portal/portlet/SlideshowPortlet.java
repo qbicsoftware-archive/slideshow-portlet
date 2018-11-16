@@ -13,8 +13,6 @@ import com.vaadin.ui.Notification;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-import java.util.ArrayList;
 
 
 /**
@@ -45,7 +43,9 @@ public class SlideshowPortlet extends QBiCPortletUI{
                     @Override
                     public void valueChange() {
                         Notification.show("Value: " + mySlider.getValue());
-                        //LOG.info(mySlider.getValue()+ "this is the value");
+                        Notification.show("Value: " + mySlider.getList());
+                        Notification.show("Value: " + mySlider.getEndOfSlider());
+                        LOG.info(mySlider.getValue()+ "this is the value");
                     }
                 });
 

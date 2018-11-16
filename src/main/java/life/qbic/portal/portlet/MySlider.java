@@ -1,27 +1,19 @@
 package life.qbic.portal.portlet;
 
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArray;
-import com.google.gwt.core.client.JsArrayString;
-import com.google.gwt.json.client.JSONArray;
-//import com.google.gwt.core.client.*;
-import com.google.gwt.json.client.JSONString;
+
 import com.vaadin.annotations.JavaScript;
-import com.vaadin.server.ExternalResource;
-import com.vaadin.server.Page;
+
 import com.vaadin.server.VaadinService;
 import com.vaadin.ui.AbstractJavaScriptComponent;
 import com.vaadin.ui.JavaScriptFunction;
-import com.vaadin.ui.Link;
 import elemental.json.JsonArray;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
 
-import static com.liferay.portal.kernel.util.GetterUtil.getNumber;
+import java.util.ArrayList;
 
 
 @JavaScript({"vaadin://js/mySliderLibrary.js", "vaadin://js/mySliderConnector.js"})
@@ -34,20 +26,20 @@ public class MySlider extends AbstractJavaScriptComponent {
 
     //handel RCP calls from Server-Side
     public MySlider() { //constructor that REGISTERS the call() function
+
+
         //set up the pictureList
         String basePath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
         File folder = new File(basePath+"/VAADIN/images/");
         File[] listOfFiles = folder.listFiles();
         ArrayList<String> filesList = new ArrayList<>();
 
-        //JsArrayString jsFileArray = ((JsArrayString) JsArrayString.createArray(2));
 
 
         for (int i = 0; i < listOfFiles.length; i++) {
 
             if (listOfFiles[i].isFile() && checkFileType(listOfFiles[i])) {
                 filesList.add(listOfFiles[i].getName());
-                //jsFileArray.push(listOfFiles[i].getName());
                 LOG.info("Name of the file "+listOfFiles[i].getName());
 
             } else if (listOfFiles[i].isDirectory()) {
@@ -55,7 +47,6 @@ public class MySlider extends AbstractJavaScriptComponent {
             }
         }
 
-        //setList(jsFileArray);
         String[] pictures = filesList.toArray(new String[filesList.size()]);
         setList(pictures);
 
@@ -91,6 +82,21 @@ public class MySlider extends AbstractJavaScriptComponent {
             }
         });
 
+        addFunction("setEndOfSlider", new JavaScriptFunction() {   //call is a server-side function handler
+            @Override
+            public void call(JsonArray arguments) {
+
+                LOG.info("Type {}", arguments.getBoolean(0));
+                LOG.info(getState().endOfSlider+" sliderState of state");
+
+
+                for (ValueChangeListener listener: listeners) {
+                    listener.valueChange();
+                }
+
+            }
+        });
+
     }
 
     /**
@@ -108,6 +114,7 @@ public class MySlider extends AbstractJavaScriptComponent {
         }
         return false;
     }
+
 
     //include ValueChangeListeners
     public interface ValueChangeListener extends Serializable {
@@ -134,15 +141,21 @@ public class MySlider extends AbstractJavaScriptComponent {
         return getState().position;
     }
 
-    /* public void setList(JsArrayString list){ getState().pictureList = list;}
-    public JsArrayString getList() {
-        return getState().pictureList;
-    }*/
 
-   public void setList(String[] list){ getState().pictureList = list;}
+   public void setList(String[] list){
+        getState().pictureList = list;
+   }
    public String[] getList() {
         return getState().pictureList;
+   }
+
+    public void setEndOfSlider(boolean end){
+        getState().endOfSlider = end;
     }
+    public boolean getEndOfSlider() {
+        return getState().endOfSlider;
+    }
+
 
 
 }

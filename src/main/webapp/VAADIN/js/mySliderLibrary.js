@@ -8,6 +8,7 @@ var slideIndex = 1;
 var documentX; //document is protected name!!
 var pictureList = ["colors.jpg"];
 var self;
+var endOfSlider = false;
 
 mySliderLibrary.MySlider = function (element) {
 
@@ -16,27 +17,6 @@ mySliderLibrary.MySlider = function (element) {
 
     documentX = element;
 
-   /* documentX.innerHTML = "<div id = 'container' class='slideshow-container'>"+
-                            "<div id = 'content'>"+
-                            "<div class='mySlides fade'>" +
-                                                            "<div class='numbertext'>1 / 3</div>"+
-                                                           "<img src='./VAADIN/images/colors.jpg' style='width:100%'>"+
-                                                             "<div class='text'>Caption one</div>"+
-                             "</div>"+
-                            "</div>"
-                            "<!-- Next and previous buttons -->"+
-                            "<div class = 'split'>"+
-                            "<a class='prev'>&#10094;</a>"+
-                            "<a class='next'>&#10095;</a>"+
-                            "</div>"
-                         "</div>"+
-                         "<br>"+
-                         "<!-- The dots/circles -->"+
-                         "<div id='dot' style='text-align:center'>"+
-                            "<span class='dot' onclick='currentSlide(1)'></span>"+
-                            "<span class='dot' onclick='currentSlide(2)'></span>"+
-                            "<span class='dot' onclick='currentSlide(3)'></span>"+
-                         "</div>";*/
 
     // Getter and setter for the value property
     this.getValue = function () {
@@ -52,6 +32,14 @@ mySliderLibrary.MySlider = function (element) {
     };
     this.setList = function (list) {
     	pictureList =  list;
+    };
+
+    this.setEndOfSlider = function (end){
+        endOfSlider = end;
+    };
+
+    this.getEndOfSlider = function (){
+        return endOfSlider;
     };
 
     createHTML();
@@ -71,37 +59,12 @@ mySliderLibrary.MySlider = function (element) {
     window.setTimeout(newLoad, 1000);
 
 
-
-/* Test: is this function necessary?
-	// Default implementation of the click handler
-	this.click = function () {
-		//alert("Error: Must implement click() method");//is called with button.onclick
-	};
-
-*/
-
-/*
-jump to these alerts after connector alert!!
-*/
-    var prev = element.getElementsByClassName("prev")[0]; // -> use array to access the right field
-    self = this; // Can't use this inside the function
-    prev.onclick = function () {
-    	self.click(); //simulate button click -> defined in mySliderConnector
-        plusSlides(-1);
-    };
-
-    var next = element.getElementsByClassName("next")[0]; // -> use array to access the right field
-  //  var self = this; // Can't use this inside the function
-    next.onclick = function () {
-        self.click();
-        plusSlides(1);
-    };
-
-
     //call the slide show
     showSlides(slideIndex);
     //showSlidesAutomatic();
 };
+
+
 
 //currently not in use
 function loadJS(){
@@ -178,6 +141,18 @@ var dots="";
                             dots+
                          "</div>";
 
+        /* need these to register changed state?
+        // Default implementation of the click handler
+        this.click = function () {
+                //alert("Error: Must implement click() method");
+        };
+
+        // Set up button click
+        var button = documentX.getElementsByTagName("a")[1];
+        var self = this; // Can't use this inside the function
+        button.onclick = function () {
+                self.click();
+        };*/
 
     showSlides(slideIndex);
 
@@ -204,7 +179,9 @@ function showSlides(n) {
 
   if (n > slides.length) {
   slideIndex = 1;
-  createHTML();}
+  //setEndOfSlider(true);
+  alert("here");
+  }
 
   if (n < 1) {slideIndex = slides.length}
 
