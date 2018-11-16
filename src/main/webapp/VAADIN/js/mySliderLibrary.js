@@ -12,7 +12,7 @@ var self;
 mySliderLibrary.MySlider = function (element) {
 
     //element.style.border = "thin solid red";
-    loadJS();
+    //loadJS();
 
     alert("first");
 
@@ -47,16 +47,23 @@ mySliderLibrary.MySlider = function (element) {
 
     documentX = element;
 
-    /*element.innerHTML = "<div class='slideshow-container'>"+
-                            "<div class='mySlides fade'>"+
+   /* documentX.innerHTML = "<div id = 'container' class='slideshow-container'>"+
+                            "<div id = 'content'>"+
+                            "<div class='mySlides fade'>" +
+                                                            "<div class='numbertext'>1 / 3</div>"+
+                                                           "<img src='./VAADIN/images/colors.jpg' style='width:100%'>"+
+                                                             "<div class='text'>Caption one</div>"+
+                             "</div>"+
                             "</div>"
                             "<!-- Next and previous buttons -->"+
+                            "<div class = 'split'>"+
                             "<a class='prev'>&#10094;</a>"+
                             "<a class='next'>&#10095;</a>"+
+                            "</div>"
                          "</div>"+
                          "<br>"+
                          "<!-- The dots/circles -->"+
-                         "<div style='text-align:center'>"+
+                         "<div id='dot' style='text-align:center'>"+
                             "<span class='dot' onclick='currentSlide(1)'></span>"+
                             "<span class='dot' onclick='currentSlide(2)'></span>"+
                             "<span class='dot' onclick='currentSlide(3)'></span>"+
@@ -79,6 +86,19 @@ mySliderLibrary.MySlider = function (element) {
     };
 
     createHTML();
+
+
+    function checkVariable() {
+
+       if (typeof pictureList !== 'colors.jpg') {
+           alert("defined now");
+           createHTML();
+
+       }
+     }
+
+     setTimeout(checkVariable, 1000);
+
 
 /* Test: is this function necessary?
 	// Default implementation of the click handler
@@ -115,6 +135,7 @@ jump to these alerts after connector alert!!
     //showSlidesAutomatic();
 };
 
+//currently not in use
 function loadJS(){
 var theNewScript = document.createElement("script");
 theNewScript.type = "text/javascript";
@@ -124,22 +145,20 @@ document.getElementsByTagName("head")[0].appendChild(theNewScript);
 var waitForLoad = function () {
     if (typeof jQuery != "undefined") {
         alert("it worked!");
-        var dir = "./VAADIN/images";
+        //use jquery here -> it is loaded
+        /*var dir = "./VAADIN/images/";
                 var fileextension=".jpg";
                 alert("after loading");
                   $.ajax({
-                     //This will retrieve the contents of the folder if the folder is configured as 'browsable'
-                        url: dir,
-                        success: function (data) {
-                            //Lsit all png file names in the page
-                            $(data).find("a:contains(" + fileextension + ")").each(function () {
-                                alert("in function");
-                                var filename = this.href.replace(window.location.host, "").replace("http:///","");
-                                //$("body").append($("<img src=" + Dir + filename + "></img>"));
-                                alert(filename);
-                            });
-                        }
-                    });
+                    url: "./VAADIN/images/",
+                    success: function(data){
+                       $(data).find("td > a").each(function(){
+                          // will loop through
+                          alert("Found a file: " + $(this).attr("href"));
+                       });
+                    }
+                  });*/
+        alert(pictureList[0]) // pictureList is available after some waiting
     } else {
         window.setTimeout(waitForLoad, 1000);
     }
@@ -155,7 +174,7 @@ var content = " ";
 var num;
 var img;
 var capt;
-var dots;
+var dots="";
 
    // pictureList = getList();
     //alert(pictureList);
@@ -174,9 +193,15 @@ var dots;
   //   capt = "<div class='text'>Caption one</div>";
 
       content = content+"<div class='mySlides fade'>"+num+img+"</div>";
+
       dots = dots+"<span class='dot' onclick='currentSlide("+(i+1)+")'></span>";
 
+      alert(i);
+
     }
+      //document.getElementById("content").innerHTML = content;
+      //document.getElementById("dot").innerHTML = dots;
+    alert(dots);
 
     documentX.innerHTML = "<div class='slideshow-container'>"+
                             content+
@@ -188,12 +213,10 @@ var dots;
                          "<!-- The dots/circles -->"+
                          "<div style='text-align:center'>"+
                             dots+
-                            /*"<span class='dot' onclick='currentSlide(1)'></span>"+
-                            "<span class='dot' onclick='currentSlide(2)'></span>"+
-                            "<span class='dot' onclick='currentSlide(3)'></span>"+*/
                          "</div>";
     //do something like element.innerHTML = createHTML(pictureList) which is received from server (shared state??)
 
+    alert(documentX.innerHTML);
 
 /** TODO: create as many dots as there are pictures!
 
@@ -214,6 +237,8 @@ var dots;
                             "</div>"+
 
 **/
+
+    showSlides(slideIndex);
 
 }
 
