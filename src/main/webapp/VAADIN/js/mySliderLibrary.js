@@ -14,37 +14,6 @@ mySliderLibrary.MySlider = function (element) {
     //element.style.border = "thin solid red";
     //loadJS();
 
-    alert("first");
-
-    alert("out");
-
-    /*$( document ).ready(function() {
-        $.ajax({
-          url: "photo-list.php",
-          dataType: "json",
-          success: function (data) {
-            $.each(data, function(i,filename) {
-              $("#slides-foto-test").append("<img src='" + filename + "'>");
-            });
-
-            // Now trigger the slideshow script
-            $('#slides').superslides({
-              hashchange: true,
-              play: 4000
-            });
-            $('#slides').on('mouseenter', function() {
-              $(this).superslides('stop');
-              console.log('Stopped')
-            });
-            $('#slides').on('mouseleave', function() {
-              $(this).superslides('start');
-              console.log('Started')
-            });
-
-          }
-        });
-      });*/
-
     documentX = element;
 
    /* documentX.innerHTML = "<div id = 'container' class='slideshow-container'>"+
@@ -87,17 +56,20 @@ mySliderLibrary.MySlider = function (element) {
 
     createHTML();
 
+//this is necessary to reload the html after the list from Java is received via state change
+    newLoad = function () {
 
-    function checkVariable() {
+    if(pictureList != "colors.jpg"){
+        alert("change");
+        createHTML();
+    }
+    else{
+        window.setTimeout(newLoad, 1000);
+    }
 
-       if (typeof pictureList !== 'colors.jpg') {
-           alert("defined now");
-           createHTML();
+    };
+    window.setTimeout(newLoad, 1000);
 
-       }
-     }
-
-     setTimeout(checkVariable, 1000);
 
 
 /* Test: is this function necessary?
@@ -116,8 +88,6 @@ jump to these alerts after connector alert!!
     prev.onclick = function () {
     	self.click(); //simulate button click -> defined in mySliderConnector
         plusSlides(-1);
-        //alert(slideIndex);
-    	//alert("pressed prev");
     };
 
     var next = element.getElementsByClassName("next")[0]; // -> use array to access the right field
@@ -125,8 +95,6 @@ jump to these alerts after connector alert!!
     next.onclick = function () {
         self.click();
         plusSlides(1);
-       // alert(slideIndex);
-      // alert("pressed next");
     };
 
 
@@ -178,10 +146,10 @@ var dots="";
 
    // pictureList = getList();
     //alert(pictureList);
-    alert("i am creating html");
+    //alert("i am creating html");
     //element.getElementsByTagName("div")[0].innerHTML = "<p><i>This text is italic</i></p>"; element works for tag names
     //document.getElementById("test").innerHTML = "<p><i>This text is italic</i></p>"; //document works for id
-    alert(pictureList);
+    //alert(pictureList);
 
 
 //create slideshow container
@@ -196,47 +164,20 @@ var dots="";
 
       dots = dots+"<span class='dot' onclick='currentSlide("+(i+1)+")'></span>";
 
-      alert(i);
-
     }
-      //document.getElementById("content").innerHTML = content;
-      //document.getElementById("dot").innerHTML = dots;
-    alert(dots);
 
     documentX.innerHTML = "<div class='slideshow-container'>"+
                             content+
-                            "<!-- Next and previous buttons -->"+
-                            "<a class='prev'>&#10094;</a>"+
-                            "<a class='next'>&#10095;</a>"+
+                           "<!-- Next and previous buttons -->"+
+                           "<a class='prev' onclick='plusSlides(-1)'>&#10094;</a>"+
+                           "<a class='next' onclick='plusSlides(1)'>&#10095;</a>"+
                          "</div>"+
                          "<br>"+
                          "<!-- The dots/circles -->"+
                          "<div style='text-align:center'>"+
                             dots+
                          "</div>";
-    //do something like element.innerHTML = createHTML(pictureList) which is received from server (shared state??)
 
-    alert(documentX.innerHTML);
-
-/** TODO: create as many dots as there are pictures!
-
-                            "<div class='mySlides fade'>" +
-                                "<div class='numbertext'>1 / 3</div>"+
-                               "<img src='./VAADIN/images/colors.jpg' style='width:100%'>"+
-                                 "<div class='text'>Caption one</div>"+
-                            "</div>"+
-                            "<div class='mySlides fade'>"+
-                                 "<div class='numbertext'>2 / 3</div>"+
-                                 "<img src='/VAADIN/images/holi.jpg' style='width:100%'>"+
-                                 "<div class='text'>Caption Two</div>"+
-                            "</div>"+
-                            "<div class='mySlides fade'>"+
-                                 "<div class='numbertext'>3 / 3</div>"+
-                                 "<img src='./VAADIN/images/holi.jpg' style='width:100%'>"+
-                                 "<div class='text'>Caption three</div>"+
-                            "</div>"+
-
-**/
 
     showSlides(slideIndex);
 
