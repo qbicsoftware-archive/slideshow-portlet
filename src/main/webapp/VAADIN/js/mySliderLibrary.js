@@ -6,16 +6,15 @@
 var mySliderLibrary = mySliderLibrary || {};
 var slideIndex = 1;
 var documentX; //document is protected name!!
-var pictureList = ["colors.jpg"];
+var pictureList = []; //"https://portal-testing.qbic.uni-tuebingen.de/slideshow-portlet/VAADIN/images/colors.jpg"];
 var self;
 var endOfSlider = false;
 
 mySliderLibrary.MySlider = function (element) {
 
-    //element.style.border = "thin solid red";
-    //loadJS();
 
     documentX = element;
+    self = this;
 
 
     // Getter and setter for the value property
@@ -34,6 +33,7 @@ mySliderLibrary.MySlider = function (element) {
     	pictureList =  list;
     };
 
+    // Getter and Setter for the end of Slider -> use for dynamic picture loading
     this.setEndOfSlider = function (end){
         endOfSlider = end;
     };
@@ -42,13 +42,21 @@ mySliderLibrary.MySlider = function (element) {
         return endOfSlider;
     };
 
-    createHTML();
+    // Default implementation of the click handler, needs to stay here in order for the connector to connect between Java and JS
+    this.click = function () {
+            //alert("Error: Must implement click() method");
+    };
 
-//this is necessary to reload the html after the list from Java is received via state change
+    this.isEnd = function(){
+        //alert("i am at the end");
+    }
+
+    //createHTML();
+
+    //this is necessary to reload the html after the list from Java is received via state change
     newLoad = function () {
 
-    if(pictureList != "colors.jpg"){
-        alert("change");
+    if(typeof pictureList !== 'undefined' && pictureList.length > 0){
         createHTML();
     }
     else{
@@ -58,103 +66,64 @@ mySliderLibrary.MySlider = function (element) {
     };
     window.setTimeout(newLoad, 1000);
 
-
     //call the slide show
     showSlides(slideIndex);
     //showSlidesAutomatic();
 };
 
 
-
-//currently not in use
-function loadJS(){
-var theNewScript = document.createElement("script");
-theNewScript.type = "text/javascript";
-theNewScript.src = "./VAADIN/js/jQuery.js";
-document.getElementsByTagName("head")[0].appendChild(theNewScript);
-// jQuery MAY OR MAY NOT be loaded at this stage
-var waitForLoad = function () {
-    if (typeof jQuery != "undefined") {
-        alert("it worked!");
-        //use jquery here -> it is loaded
-        /*var dir = "./VAADIN/images/";
-                var fileextension=".jpg";
-                alert("after loading");
-                  $.ajax({
-                    url: "./VAADIN/images/",
-                    success: function(data){
-                       $(data).find("td > a").each(function(){
-                          // will loop through
-                          alert("Found a file: " + $(this).attr("href"));
-                       });
-                    }
-                  });*/
-        alert(pictureList[0]) // pictureList is available after some waiting
-    } else {
-        window.setTimeout(waitForLoad, 1000);
-    }
-};
-window.setTimeout(waitForLoad, 1000);
-
-
-}
-
+//This Function builds the innerHTML for the slider
 function createHTML(){
-
 var content = " ";
 var num;
 var img;
 var capt;
 var dots="";
+var path = "https://portal-testing.qbic.uni-tuebingen.de/slideshow-portlet/VAADIN/images/";
+//https://portal-testing.qbic.uni-tuebingen.de/slideshow-portlet/VAADIN/images/holi.jpg -> how to find the picture in browser
 
-   // pictureList = getList();
-    //alert(pictureList);
-    //alert("i am creating html");
-    //element.getElementsByTagName("div")[0].innerHTML = "<p><i>This text is italic</i></p>"; element works for tag names
-    //document.getElementById("test").innerHTML = "<p><i>This text is italic</i></p>"; //document works for id
-    //alert(pictureList);
+var oldPath = "./VAADIN/images/"; //works local
 
+    alert("create HTML");
 
-//create slideshow container
+    //create slideshow container
     for(i = 0; i < pictureList.length; i++){
 
-     num = "<div class='numbertext'>"+i+" / "+pictureList.length+"</div>";
-     img = "<img src='./VAADIN/images/"+pictureList[i]+"' style='width:100%'>";
+        num = "<div class='numbertext'>"+(i+1)+" / "+pictureList.length+"</div>";
+        img = "<img src='"+pictureList[i]+"' style='width:100%'>";
 
-  //   capt = "<div class='text'>Caption one</div>";
+        // container for the Picture with its the Number
+        content = content+"<div class='mySlides'>"+num+img+"</div>";
 
-      content = content+"<div class='mySlides fade'>"+num+img+"</div>";
+        // add a dot for each picture with onClick method to make it navigatable
+        dots = dots+"<span class='dot' onclick='currentSlide("+(i+1)+")'></span>";
 
-      dots = dots+"<span class='dot' onclick='currentSlide("+(i+1)+")'></span>";
+    }
+    //skip this for the first load
+    if (typeof pictureList !== 'undefined' && pictureList.length > 0){
+
+            //build the HTML
+            //may be not that efficient since complete HTML is overwritten -->
+            //try something like: documentX.getElementsByTagName("div")[0].innerHTML = "<p><i>This text is italic</i></p>"; or
+            //documentX.getElementById("test").innerHTML = "<p><i>This text is italic</i></p>";
+            //be careful to work on the right object!!!
+            documentX.innerHTML = "<div class='slideshow-container'>"+
+                                    content+
+                                   "<!-- Next and previous buttons -->"+
+                                   "<a class='prev' onclick='plusSlides(-1)'>&#10094;</a>"+
+                                   "<a class='next' onclick='plusSlides(1)'>&#10095;</a>"+
+                                 "</div>"+
+                                 "<br>"+
+                                 "<!-- The dots/circles -->"+
+                                 "<div style='text-align:center'>"+
+                                    dots+
+                                 "</div>";
+
+
+            showSlides(slideIndex);
 
     }
 
-    documentX.innerHTML = "<div class='slideshow-container'>"+
-                            content+
-                           "<!-- Next and previous buttons -->"+
-                           "<a class='prev' onclick='plusSlides(-1)'>&#10094;</a>"+
-                           "<a class='next' onclick='plusSlides(1)'>&#10095;</a>"+
-                         "</div>"+
-                         "<br>"+
-                         "<!-- The dots/circles -->"+
-                         "<div style='text-align:center'>"+
-                            dots+
-                         "</div>";
-
-        /* need these to register changed state?
-        // Default implementation of the click handler
-        this.click = function () {
-                //alert("Error: Must implement click() method");
-        };
-
-        // Set up button click
-        var button = documentX.getElementsByTagName("a")[1];
-        var self = this; // Can't use this inside the function
-        button.onclick = function () {
-                self.click();
-        };*/
-
-    showSlides(slideIndex);
 
 }
 
@@ -162,11 +131,13 @@ var dots="";
 // Next/previous controls
 function plusSlides(n) {
     showSlides(slideIndex += n);
+    self.click();
 }
 
 // Thumbnail image controls -> for clicking dots
 function currentSlide(n) {
     showSlides(slideIndex = n);
+    self.click();
 }
 
 /*
@@ -178,9 +149,10 @@ function showSlides(n) {
   var dots = document.getElementsByClassName("dot");
 
   if (n > slides.length) {
-  slideIndex = 1;
-  //setEndOfSlider(true);
-  alert("here");
+    slideIndex = 1;
+    self.isEnd();
+    //self.setEndOfSlider(true); --> marks the end of the List -> todo: trigger new load of pictures
+    //endOfSlider = true;
   }
 
   if (n < 1) {slideIndex = slides.length}
@@ -195,7 +167,6 @@ function showSlides(n) {
 
   slides[slideIndex-1].style.display = "block";
   dots[slideIndex-1].className += " active";
-  //self.setValue(slideIndex);
 }
 
 /*
@@ -224,5 +195,32 @@ function showSlidesAutomatic() {
     setTimeout(showSlidesAutomatic, 2000); // Change image every 2 seconds
 }
 
+// Stuff for dynamic picture loading, communication from JS to Java not properly working yet
+// Maybe the Shared State has not properly been included in the Connector
+//
 
+//How to include other scripts, the script is located in the project
+//there may be problems with the path in the portal (was only tested for localhost)
 
+//loads jQuery
+function loadJS(){
+    var theNewScript = document.createElement("script");
+
+    theNewScript.type = "text/javascript";
+    theNewScript.src = "./VAADIN/js/jQuery.js";
+    document.getElementsByTagName("head")[0].appendChild(theNewScript);
+
+    // jQuery MAY OR MAY NOT be loaded at this stage
+    var waitForLoad = function () {
+        if (typeof jQuery != "undefined") {
+            //use jquery here -> it is loaded
+            /*
+                do stuff
+            */
+        } else {
+            window.setTimeout(waitForLoad, 1000);
+        }
+    };
+
+    window.setTimeout(waitForLoad, 1000);
+}

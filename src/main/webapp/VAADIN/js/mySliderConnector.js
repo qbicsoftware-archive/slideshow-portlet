@@ -6,15 +6,14 @@ function() {
 
     // Handle changes from the server-side
     this.onStateChange = function() {
-       //mySlider.setValue(this.getState().position); --> do not set this value (will overwrite new states continuously
        mySlider.setList(this.getState().pictureList);
        //mySlider.createHTML();
-       alert("changed state registered");
+       //alert("changed state registered");
     };
 
     // Pass user interaction to the server-side
     var self = this;
-       mySlider.click = function() {
+    mySlider.click = function() {
        self.onClick(mySlider.getValue());
     };
 
@@ -25,10 +24,12 @@ function() {
     var connector = this;
     mySlider.click = function() { //.click implemented in JS library -> overwrite!
           connector.onClick(mySlider.getValue()); //onClick implemented on Server-Side --> passing simple string
-          alert("clicked");
-        //to extend the html work on the component object of mylibrary --> need to define method to extend html and call in connector
+          //alert("clicked");
     };
 
-
+    //Should have triggered the new loading of pictures from java, did not work properly
+    mySlider.isEnd = function(){
+        mySlider.setEndOfSlider(true);
+    }
 
 };
