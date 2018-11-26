@@ -83,8 +83,8 @@ public class SlideshowPortlet extends QBiCPortletUI{
             }
             String portletName = prop.getProperty("name");
 
-            pathBuilder.append("https://");
-            /**URI location = UI.getCurrent().getPage().getLocation();
+            //pathBuilder.append("https://");
+            URI location = getCurrent().getPage().getLocation(); //UI.getCurrent().getPage().getLocation();
             // http
             pathBuilder.append(location.getScheme());
             pathBuilder.append("://");
@@ -95,8 +95,8 @@ public class SlideshowPortlet extends QBiCPortletUI{
             if (location.toString().contains(port)) {
                 pathBuilder.append(":");
                 pathBuilder.append(port);
-            }**/
-            pathBuilder.append("portal-testing.qbic.uni-tuebingen.de");
+            }
+           // pathBuilder.append("portal-testing.qbic.uni-tuebingen.de");
             pathBuilder.append("/");
             pathBuilder.append(portletName);
         }

@@ -6,8 +6,7 @@ public class MySliderState extends JavaScriptComponentState {
     public int position;
     public String[] pictureList;
 
-
     //for dynamic picture loading; not in use currently
-    public boolean endOfSlider;
+    //public boolean endOfSlider;
 
 }

@@ -4,12 +4,26 @@ function() {
     var mySlider =
         new mySliderLibrary.MySlider(this.getElement()); //call myLibrary function with this element to connect JS
 
-    // Handle changes from the server-side
+
+    //this.FunctionName = function() {}
+    //implements functions from MySlider which is a java class   (!= var mySlider)
+
+    // Handle changes from the server-side (if one of the shared state variables is changed this fkt is triggered)
     this.onStateChange = function() {
        mySlider.setList(this.getState().pictureList);
-       //mySlider.createHTML();
        //alert("changed state registered");
+       //TODO reloads HTML each time someone clicks the slider -> filter for change of pictureList
+       mySlider.createHTML();
     };
+
+    //
+    this.loadPictures = function() {
+        alert("i entered the connector");
+        mySlider.setList(this.getState().pictureList);
+
+    };
+
+    //mySlider.FunctionName =  function(){}
 
     // Pass user interaction to the server-side
     var self = this;
@@ -27,9 +41,8 @@ function() {
           //alert("clicked");
     };
 
-    //Should have triggered the new loading of pictures from java, did not work properly
     mySlider.isEnd = function(){
-        mySlider.setEndOfSlider(true);
+        connector.reloadPictures(); //setEndOfSlider is defined in mySlider.java
     }
 
 };

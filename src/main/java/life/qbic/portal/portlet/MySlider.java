@@ -27,6 +27,8 @@ public class MySlider extends AbstractJavaScriptComponent {
 
     //handel RCP calls from Server-Side
     public MySlider(String basePath) { //constructor that REGISTERS the call() function
+        //TODO read configuration.txt for valid datatypes
+        readConfig();
         jsPath = basePath;
 
         loadPictures();
@@ -42,11 +44,11 @@ public class MySlider extends AbstractJavaScriptComponent {
 
                 //reached end of list:
                 //reload pictures; this attempt is not fully functional
-                if (getValue() == getList().length) {
-                    loadPictures();
-                    LOG.info("Updated list of pictures");
+                //if (getValue() == getList().length) {
+                //    loadPictures();
+                //    LOG.info("Updated list of pictures");
 
-                }
+                //}
 
 
                 for (ValueChangeListener listener : listeners) {
@@ -55,11 +57,30 @@ public class MySlider extends AbstractJavaScriptComponent {
 
             }
         });
-        //for dynamic pictureloading somehow use a function like onClick -> trigger new load of pictureList if used
+
+        //when the end of the slider is reached JS triggers a reload of the pictures (see connector)
+        addFunction("reloadPictures", new JavaScriptFunction() {   //call is a server-side function handler
+            @Override
+            public void call(JsonArray arguments) {
+
+                loadPictures();
+                LOG.info("Updated list of pictures");
+
+                for (ValueChangeListener listener : listeners) {
+                    listener.valueChange();
+                }
+
+            }
+        });
 
     }
 
-
+    /**
+     * Determines valid data types for the pictures that are loaded
+     */
+    private void readConfig(){
+        //todo implement
+    }
 
     /**
      * Method to check if the element is of defined file type
@@ -141,7 +162,7 @@ public class MySlider extends AbstractJavaScriptComponent {
         return getState().pictureList;
     }
 
-    // should be used to dynamically reload the picture
+    /*// should be used to dynamically reload the picture
     // if EndOfSlider is true then Java should transfer again the picturelist to JS
     public void setEndOfSlider(boolean end) {
         getState().endOfSlider = end;
@@ -149,7 +170,7 @@ public class MySlider extends AbstractJavaScriptComponent {
 
     public boolean getEndOfSlider() {
         return getState().endOfSlider;
-    }
+    }*/
 
 
 }
