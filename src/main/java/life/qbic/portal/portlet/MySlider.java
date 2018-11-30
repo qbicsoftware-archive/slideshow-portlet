@@ -10,10 +10,11 @@ import elemental.json.JsonArray;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-import java.io.Serializable;
+import java.io.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 
 @JavaScript({"vaadin://js/mySliderLibrary.js", "vaadin://js/mySliderConnector.js"})
@@ -22,34 +23,26 @@ public class MySlider extends AbstractJavaScriptComponent {
 
     private static final Logger LOG = LogManager.getLogger(life.qbic.portal.portlet.MySlider.class);
     ArrayList<ValueChangeListener> listeners = new ArrayList<ValueChangeListener>();
-    private String[] pictureType = new String[]{"jpg", "png"};
+    private List<String> pictureType = new ArrayList<String>(); // = new String[]{"jpg", "png"};
     private String jsPath;
 
     //handel RCP calls from Server-Side
-    public MySlider(String basePath) { //constructor that REGISTERS the call() function
-        //TODO read configuration.txt for valid datatypes
-        readConfig();
-        jsPath = basePath;
+    public MySlider(String jsBasePath) { //constructor that REGISTERS the call() function
 
-        loadPictures();
+        jsPath = jsBasePath;
+        String vaadinBasePath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
+
+        readConfig(vaadinBasePath);
+
+
+        loadPictures(vaadinBasePath);
 
         //when a Button is clicked this Method retrieves JS function parameters and recognizes the use of the function
         addFunction("onClick", new JavaScriptFunction() {   //call is a server-side function handler
             @Override
             public void call(JsonArray arguments) {
 
-                //LOG.info("Type {}", arguments.getNumber(0));
                 getState().position = (int) (arguments.getNumber(0));
-                //LOG.info(getState().position + " value of state");
-
-                //reached end of list:
-                //reload pictures; this attempt is not fully functional
-                //if (getValue() == getList().length) {
-                //    loadPictures();
-                //    LOG.info("Updated list of pictures");
-
-                //}
-
 
                 for (ValueChangeListener listener : listeners) {
                     listener.valueChange();
@@ -63,7 +56,7 @@ public class MySlider extends AbstractJavaScriptComponent {
             @Override
             public void call(JsonArray arguments) {
 
-                loadPictures();
+                loadPictures(vaadinBasePath);
                 LOG.info("Updated list of pictures");
 
                 for (ValueChangeListener listener : listeners) {
@@ -78,8 +71,26 @@ public class MySlider extends AbstractJavaScriptComponent {
     /**
      * Determines valid data types for the pictures that are loaded
      */
-    private void readConfig(){
-        //todo implement
+    public void readConfig(String vaadinBasePath) {
+        //String vaadinBasePath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
+        File file = new File(vaadinBasePath+"/VAADIN/images/configuration.txt");
+        BufferedReader reader = null;
+
+        try {
+            reader = new BufferedReader(new FileReader(file));
+            String text;
+
+            while((text = reader.readLine()) != null){
+                pictureType.add(text.replace("\n", ""));
+            }
+
+            reader.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException io) {
+            io.printStackTrace();
+        }
+
     }
 
     /**
@@ -89,23 +100,22 @@ public class MySlider extends AbstractJavaScriptComponent {
      * @return
      */
     private boolean checkFileType(File file) {
+
         String name = file.getName();
         String fileEnding = name.split("\\.")[1];
-        for (String elem : pictureType) {
-            if (elem.equals(fileEnding)) {
-                return true;
-            }
-        }
-        return false;
+
+        boolean result = pictureType.contains(fileEnding);
+
+        return result;
     }
 
     /**
      * This Method loads the pictures from the folder and sets the new list (-> sharedState)
      */
-    private void loadPictures(){
+    private void loadPictures(String vaadinBasePath) {
         //set up the pictureList
-        String basePath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
-        File folder = new File(basePath + "/VAADIN/images/");
+        //String basePath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
+        File folder = new File(vaadinBasePath + "/VAADIN/images/");
         File[] listOfFiles = folder.listFiles();
         ArrayList<String> filesList = new ArrayList<>();
 
@@ -113,8 +123,8 @@ public class MySlider extends AbstractJavaScriptComponent {
         for (int i = 0; i < listOfFiles.length; i++) {
 
             if (listOfFiles[i].isFile() && checkFileType(listOfFiles[i])) {
-                filesList.add(jsPath+listOfFiles[i].getName());
-                LOG.info("Name of the file " + listOfFiles[i].getName());
+                filesList.add(jsPath + listOfFiles[i].getName());
+                LOG.info("Path of loaded file {}", listOfFiles[i].getAbsolutePath());
 
             } else if (listOfFiles[i].isDirectory()) {
                 LOG.info("Why is there another directory? Pictures only get processed if they are directly located in the 'images' directory");

@@ -6,7 +6,8 @@ function() {
 
 
     //this.FunctionName = function() {}
-    //implements functions from MySlider which is a java class   (!= var mySlider)
+    //implements functions from MySlider which is a java class (!= var mySlider which is js)
+    //it calls a js method in function body
 
     // Handle changes from the server-side (if one of the shared state variables is changed this fkt is triggered)
     this.onStateChange = function() {
@@ -24,6 +25,7 @@ function() {
     };
 
     //mySlider.FunctionName =  function(){}
+    //implements functions from mySliderLibrary which is a js class and call a java class (of mySlider = this)
 
     // Pass user interaction to the server-side
     var self = this;

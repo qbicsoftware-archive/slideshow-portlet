@@ -87,7 +87,7 @@ mySliderLibrary.MySlider = function (element) {
                 //try something like: documentX.getElementsByTagName("div")[0].innerHTML = "<p><i>This text is italic</i></p>"; or
                 //documentX.getElementById("test").innerHTML = "<p><i>This text is italic</i></p>";
                 //be careful to work on the right object!!!
-                documentX.innerHTML = "<div class='slideshow-container'>"+
+                documentX.innerHTML = "<div class='slideshow-container' style='width:800px; margin:0 auto;'>"+
                                         content+
                                        "<!-- Next and previous buttons -->"+
                                        "<a class='prev' onclick='plusSlides(-1)'>&#10094;</a>"+

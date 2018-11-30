@@ -2,20 +2,24 @@ package life.qbic.portal.portlet;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
-import com.vaadin.server.FileResource;
+import java.io.InputStream;
+import java.net.URI;
+import java.util.Properties;
+
+import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinService;
-import com.vaadin.ui.*;
+import com.vaadin.server.VaadinServlet;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Layout;
+import com.vaadin.ui.UI;
 
 import life.qbic.portal.utils.PortalUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.validation.constraints.Null;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.util.Properties;
-
 
 /**
  * Entry point for portlet slideshow-portlet. This class derives from {@link QBiCPortletUI}, which is found in the {@code portal-utils-lib} library.
@@ -30,9 +34,10 @@ public class SlideshowPortlet extends QBiCPortletUI{
 
     private static final Logger LOG = LogManager.getLogger(SlideshowPortlet.class);
 
-    MySlider mySlider;
+    private MySlider mySlider;
 
-    public SlideshowPortlet() {
+    @Override
+    protected Layout getPortletContent(final VaadinRequest request) {
         mySlider =  new MySlider(buildImagePath());
         //String basePath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
 
@@ -40,25 +45,23 @@ public class SlideshowPortlet extends QBiCPortletUI{
         // mySlider.setValue(0);
 
         // Process a value input by the user from the client-side
-       mySlider.addValueChangeListener(
+        mySlider.addValueChangeListener(
                 new MySlider.ValueChangeListener() {
                     @Override
                     public void valueChange() {
+                        //handle value changes from JS here in java
                         //Notification.show("Value: " + mySlider.getValue());
                         //Notification.show("Value: " + mySlider.getEndOfSlider()); Notification in Window
-                        LOG.info(mySlider.getValue()+ " this is the value");
+                        //LOG.info(mySlider.getValue()+ " this is the value");
                     }
                 });
-
-    }
-
-    @Override
-    protected Layout getPortletContent(final VaadinRequest request) {
         LOG.info("Generating content for {}", SlideshowPortlet.class);
-        
+
 
         HorizontalLayout layout = new HorizontalLayout();
+
         layout.addComponent(mySlider);
+        layout.addStyleName("mySlider"); //vaadin adds the tag to the layout in order to change its style settings --> see mytheme.scss
 
         return layout;
     }
@@ -83,8 +86,9 @@ public class SlideshowPortlet extends QBiCPortletUI{
             }
             String portletName = prop.getProperty("name");
 
+
             //pathBuilder.append("https://");
-            URI location = getCurrent().getPage().getLocation(); //UI.getCurrent().getPage().getLocation();
+            URI location = UI.getCurrent().getPage().getLocation();
             // http
             pathBuilder.append(location.getScheme());
             pathBuilder.append("://");

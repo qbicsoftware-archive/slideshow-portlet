@@ -13040,11 +13040,21 @@ div.v-layout.v-horizontal.v-widget {
 	font-size: 18px;
 	transition: 0.6s ease;
 	border-radius: 0 3px 3px 0;
+	text-decoration: none;
 }
 
 .mytheme .next {
 	right: 0;
 	border-radius: 3px 0 0 3px;
+}
+
+.mytheme .prev {
+	left: 0;
+	border-radius: 3px 0 0 3px;
+}
+
+.mytheme .v-slot-mySlider {
+	text-align: center;
 }
 
 .mytheme .prev:hover, .mytheme .next:hover {
