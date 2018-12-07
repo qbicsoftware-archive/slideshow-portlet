@@ -13,7 +13,6 @@ import org.apache.logging.log4j.Logger;
 import java.io.*;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -73,7 +72,7 @@ public class MySlider extends AbstractJavaScriptComponent {
      */
     public void readConfig(String vaadinBasePath) {
         //String vaadinBasePath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
-        File file = new File(vaadinBasePath+"/VAADIN/images/configuration.txt");
+        File file = new File(vaadinBasePath+ "/VAADIN/images/config.txt");
         BufferedReader reader = null;
 
         try {

@@ -10,6 +10,7 @@ function() {
     //it calls a js method in function body
 
     // Handle changes from the server-side (if one of the shared state variables is changed this fkt is triggered)
+    // Predefined!
     this.onStateChange = function() {
        mySlider.setList(this.getState().pictureList);
        //alert("changed state registered");
@@ -17,12 +18,12 @@ function() {
        mySlider.createHTML();
     };
 
-    //
+    /* uncommented to check if used
     this.loadPictures = function() {
         alert("i entered the connector");
         mySlider.setList(this.getState().pictureList);
 
-    };
+    };*/
 
     //mySlider.FunctionName =  function(){}
     //implements functions from mySliderLibrary which is a js class and call a java class (of mySlider = this)
