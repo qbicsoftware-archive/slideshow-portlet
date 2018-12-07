@@ -1,4 +1,4 @@
-#Implementation Details
+# Implementation Details
 
 In order to properly extent or improve this tool it is crucial to understand how **Vaadin** and **Javascript (JS)** work together
 or more correctly how **Vaadin** integrates **JS** components.
