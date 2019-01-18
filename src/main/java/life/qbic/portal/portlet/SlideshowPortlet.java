@@ -39,10 +39,8 @@ public class SlideshowPortlet extends QBiCPortletUI{
     @Override
     protected Layout getPortletContent(final VaadinRequest request) {
         mySlider =  new MySlider(buildImagePath());
-        //String basePath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
+        //mySlider =  new MySlider(PortalUtils.buildImagePath());
 
-        // Set the starting position from server
-        // mySlider.setValue(0);
 
         // Process a value input by the user from the client-side
         mySlider.addValueChangeListener(
@@ -65,6 +63,8 @@ public class SlideshowPortlet extends QBiCPortletUI{
 
         return layout;
     }
+
+
 
     /**
      * This Method creates the path to the pictures
@@ -104,6 +104,7 @@ public class SlideshowPortlet extends QBiCPortletUI{
             pathBuilder.append("/");
             pathBuilder.append(portletName);
         }
+
         //path to images folder
         pathBuilder.append("/VAADIN/images/");
         LOG.info(pathBuilder.toString());
