@@ -1,4 +1,6 @@
-dist: trusty
+# use xenial distribution
+dist: xenial
+
 language: java
 jdk: openjdk8
 cache:
